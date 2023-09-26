@@ -23,19 +23,15 @@ export class UsersService {
 
   async updateProfile(user_id: number, updateDto: any): Promise<any> {
     try {
-      // Find the user by user_id
       const user = await this.userModel.findById(user_id);
 
       if (user) {
-        // Update user properties from updateDto
         user.username = updateDto.username;
         user.email = updateDto.email;
 
-        // Save the updated user to the database
         const saved_user = await user.save();
 
         if (saved_user) {
-          // Send push notification
           await this.notificationService.sendPush(
             saved_user,
             'Profile update',
@@ -48,17 +44,15 @@ export class UsersService {
         throw new Error('User not found');
       }
     } catch (error) {
-      throw error; // You may choose to handle or log the error as needed
+      throw error;
     }
   }
 
   async enablePush(user_id: number, updateDto: NotificationDto): Promise<any> {
     try {
-      // Find the user by user_id
       const user = await this.userModel.findById(user_id);
 
       if (user) {
-        // Call the NotificationService to enable push notifications
         const notificationToken =
           await this.notificationService.acceptNotification(
             user,
@@ -70,7 +64,7 @@ export class UsersService {
         throw new Error('User not found');
       }
     } catch (error) {
-      throw error; // You may choose to handle or log the error as needed
+      throw error; 
     }
   }
 
@@ -79,11 +73,9 @@ export class UsersService {
     updateDto: UpdateNotificationDto,
   ): Promise<any> {
     try {
-      // Find the user by user_id
       const user = await this.userModel.findById(user_id);
 
       if (user) {
-        // Call the NotificationService to disable push notifications
         await this.notificationService.disableNotification(user, updateDto);
 
         return 'Push notifications disabled';
@@ -91,7 +83,7 @@ export class UsersService {
         throw new Error('User not found');
       }
     } catch (error) {
-      throw error; // You may choose to handle or log the error as needed
+      throw error; 
     }
   }
 

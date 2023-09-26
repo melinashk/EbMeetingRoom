@@ -51,15 +51,14 @@ export class NotificationTokenService {
 
     async sendNotificationPush(user: any): Promise<NotificationToken | null> {
       try {
-        // Find an active notification token for the user
         const notificationToken = await this.notificationTokenModel.findOne({
-          user: user._id, // Assuming user._id is the correct field
+          user: user._id, 
           status: 'ACTIVE'
         });
         return notificationToken || null
   
       } catch (error) {
-        throw error; // You may choose to handle or log the error as needed
+        throw error; 
       }
 }
 }

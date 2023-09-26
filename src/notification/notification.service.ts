@@ -45,11 +45,9 @@ export class NotificationService {
 
   async sendPush(user: any, title: string, body: string): Promise<void> {
     try {
-      // Find an active notification token for the user
       const notification = await this.notificationTokenService.sendNotificationPush(user);
 
       if (notification) {
-        // Save the notification to the database
         const newNotification = new this.notificationModel({
           notification_token: notification.notification_token,
           title,
@@ -60,7 +58,6 @@ export class NotificationService {
 
         await newNotification.save();
 
-        // Send the push notification using Firebase Admin SDK
         await firebaseAdmin.messaging().send({
           notification: { title, body },
           token: notification.notification_token,
@@ -68,7 +65,7 @@ export class NotificationService {
         });
       }
     } catch (error) {
-      throw error; // You may choose to handle or log the error as needed
+      throw error;
     }
   }
 
